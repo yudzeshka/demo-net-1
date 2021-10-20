@@ -1,40 +1,15 @@
-/* eslint-disable no-console */
-import fetch from 'node-fetch';
+/* eslint-disable import/extensions */
+/* eslint-disable comma-dangle */
+/* eslint-disable implicit-arrow-linebreak */
+import { addUser } from './api/user-api.js';
+import { getRandomUser } from './generators/user-generator.js';
+import { rangeInclusive } from './util/util.js';
 
-const apiBase = 'http://localhost:3000';
+const main = async (usersCount) =>
+  Promise.all(
+    rangeInclusive(1, usersCount).map((_) => addUser(getRandomUser(13, 18)))
+  );
 
-const Endpoints = {
-  users: '/users',
-};
+const usersCount = parseInt(process.argv[2], 10);
 
-const getUsers = async () => {
-  const response = await fetch(`${apiBase}${Endpoints.users}`);
-  const users = await response.json();
-
-  return users;
-};
-
-const addUser = async (user) => {
-  const newUserResponse = await fetch(`${apiBase}${Endpoints.users}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json;charset=utf-8' },
-    body: JSON.stringify(user),
-  });
-
-  const result = await newUserResponse.json();
-  return result;
-};
-
-const main = async () => {
-  console.log(await getUsers());
-
-  const user = {
-    firstName: 'John',
-    lastName: 'Doe',
-    birthDate: '1995-05-23', // between 13 - 18
-  };
-
-  console.log(await addUser(user));
-};
-
-main().then();
+main(usersCount).then();
