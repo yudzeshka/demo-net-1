@@ -12,6 +12,19 @@ const getUsers = async () => {
 
   return users;
 };
+const getSortByAgeUsers = async () => {
+  const response = await fetch(`${apiBase}${Endpoints.users}?_sort=birthDate&_order=asc`);
+  const users = await response.json();
+
+  return users;
+};
+
+const getSortByNamesUsers = async () => {
+  const response = await fetch(`${apiBase}${Endpoints.users}/posts?_sort=lastName,firstName&_order=asc`);
+  const users = await response.json();
+
+  return users;
+};
 
 const addUser = async (user) => {
   const newUserResponse = await fetch(`${apiBase}${Endpoints.users}`, {
@@ -24,15 +37,43 @@ const addUser = async (user) => {
   return result;
 };
 
-const deleteUser = (id) => {};
+const deleteUser = async (id) => {
+  const newUserResponse = await fetch(`${apiBase}${Endpoints.users}/${id}`, {
+    method: 'DELETE',
+    });
+
+  const result = await newUserResponse.json();
+  return result;
+};
+
+// const deleteUser = (id) => {};
 
 // PUT
-const replaceUser = (id, newUser) => {};
+const replaceUser = async (id, newUser) => {
+  const newUserResponse = await fetch(`${apiBase}${Endpoints.users}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: JSON.stringify(newUser),
+  });
+
+  const result = await newUserResponse.json();
+  return result;
+};
+
 
 // PATCH
-const updateUser = (id, newUserFields) => {};
+const updateUser = async (id, newUserFields) => {
+  const newUserResponse = await fetch(`${apiBase}${Endpoints.users}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: JSON.stringify(newUserFields),
+  });
 
-export { getUsers, addUser };
+  const result = await newUserResponse.json();
+  return result;
+};
+
+export { getUsers, addUser, getSortByAgeUsers, getSortByNamesUsers, deleteUser, replaceUser, updateUser };
 
 // add 10 - 30 random users
 // delete 5 random users
