@@ -13,14 +13,14 @@ const getUsers = async () => {
   return users;
 };
 const getSortByAgeUsers = async () => {
-  const response = await fetch(`${apiBase}${Endpoints.users}?_sort=birthDate&_order=asc`);
+  const response = await fetch(`${apiBase}${Endpoints.users}/?_sort=birthDate&_order=asc`);
   const users = await response.json();
 
   return users;
 };
 
 const getSortByNamesUsers = async () => {
-  const response = await fetch(`${apiBase}${Endpoints.users}/posts?_sort=lastName,firstName&_order=asc`);
+  const response = await fetch(`${apiBase}${Endpoints.users}/?_sort=lastName,firstName&_order=asc`);
   const users = await response.json();
 
   return users;
